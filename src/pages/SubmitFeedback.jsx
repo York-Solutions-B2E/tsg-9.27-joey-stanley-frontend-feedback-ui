@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactStars from "react-stars";
 
-function Survey() {
+function SubmitFeedback() {
     //Survey input fields states
     const [memberId, setMemberId] = useState('');
     const [providerName, setProviderName] = useState('');
@@ -73,7 +73,7 @@ function Survey() {
 
     return (
         <>
-        <h2>Survey Page</h2>
+        <h2>Submit Feedback:</h2>
         <form onSubmit={handleSubmit}>
         <input 
           type="text"
@@ -122,4 +122,4 @@ function Survey() {
         </>
     )
 }
-export default Survey;
+export default SubmitFeedback;
