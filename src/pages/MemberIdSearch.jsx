@@ -4,13 +4,15 @@ function MemberIdSearch() {
     //Field states
     const [memberId, setMemberId] = useState('');
     const [feedback, setFeedback] = useState([]);
+    const [noResults, setNoResults] = useState(false);
 
     //Search by member id GET Request
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setNoResults(false);
 
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/feedback/${memberId}`, {
+            const response = await fetch(`http://localhost:8080/api/v1/feedback?memberId=${memberId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,10 +21,10 @@ function MemberIdSearch() {
             const data = await response.json();
 
             if (data.length > 0) {
-                console.log('Feedback search result:', data) //DELETE LATER
                 setFeedback(data);
             } else {
-                setFeedback("no results found"); //Might have to change. maybe just console log error and include a "no results found" element below
+                setFeedback([]);
+                setNoResults(true);
             }
 
         } catch(error) {
@@ -44,14 +46,16 @@ function MemberIdSearch() {
           Search
         </button>
     </form>
-    <ul>
-     {feedback.map((item, index) => (
-     <li key={index}>
-        <p><strong>Provider:</strong> {item.providerName}</p>
-        <p><strong>Rating:</strong> {item.rating}</p>
-        <p><strong>Comment:</strong> {item.comment}</p>
-     </li>))}
-    </ul>
+    {noResults && <p>No results found.</p>}
+    <div>
+        {feedback.map((item, index) => (
+            <div key={index} className="feedback-box">
+                <p><strong>Provider:</strong> {item.providerName}</p>
+                <p><strong>Rating:</strong> {item.rating}</p>
+                <p><strong>Comment:</strong> {item.comment}</p>
+            </div>
+            ))}
+    </div>
     </>
     )
 }
