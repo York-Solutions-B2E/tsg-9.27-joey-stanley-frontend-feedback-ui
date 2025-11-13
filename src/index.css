@@ -79,3 +79,10 @@ form {
   font-size: 0.9em;
   margin-top: 4px;
 }
+
+.feedback-box {
+  border: 1px solid #ccc; 
+  padding: 10px;       
+  margin-top: 10px;    
+  border-radius: 6px;  
+}

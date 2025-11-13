@@ -12,6 +12,7 @@ function SubmitFeedback() {
     const [memIdMsg, setMemIdMsg] = useState('');
     const [providerNmMsg, setProviderNmMsg] = useState('');
     const [commentMsg, setCommentMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
 
     //Form Validation
     useEffect(() => {
@@ -56,11 +57,11 @@ function SubmitFeedback() {
             });
 
             if (response.ok) {
-                console.log('survery was submitted, reponse ok, delete this later')
                 setMemberId('');
                 setProviderName('');
                 setRating(1);
                 setComment('');
+                setSuccessMsg('Feedback submitted successfully!');
             } else {
                 console.error('response not ok error')
             }
@@ -69,7 +70,6 @@ function SubmitFeedback() {
             console.error('Survey Network Error:', error)
         }
     }
-
 
     return (
         <>
@@ -115,10 +115,11 @@ function SubmitFeedback() {
 
         <button
           type="submit"
-          disabled={!memberId || !providerName || !comment}
+          disabled={!memberId || !providerName}
         > Submit
         </button>
         </form>
+        {successMsg && <p>{successMsg}</p>}
         </>
     )
 }

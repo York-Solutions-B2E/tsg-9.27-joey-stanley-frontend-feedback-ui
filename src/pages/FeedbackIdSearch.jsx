@@ -4,10 +4,13 @@ function FeedbackIdSearch() {
     //Field states
     const [feedbackId, setFeedbackId] = useState('');
     const [feedback, setFeedback] = useState('');
+    const [noResults, setNoResults] = useState(false);
 
     //Search by Feedback id GET Request
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setNoResults(false);
+        setFeedback('');
 
         try {
             const response = await fetch(`http://localhost:8080/api/v1/feedback/${feedbackId}`, {
@@ -16,14 +19,13 @@ function FeedbackIdSearch() {
                     'Content-Type': 'application/json',
                 }
             });
-            const data = await response.json();
-
-            if (data) {
-                console.log('Feedback search result:', data) //DELETE LATER
-                setFeedback(data);
-            } else {
-                setFeedback("no results found"); //Might have to change. maybe just console log error and include a "no results found" element below
+            if (!response.ok) {
+                setNoResults(true);
+                return;
             }
+
+            const data = await response.json();
+            setFeedback(data);
 
         } catch(error) {
             console.error('Feedback Network Error:', error);
@@ -44,12 +46,13 @@ function FeedbackIdSearch() {
           Search
         </button>
     </form>
+    {noResults && <p>No results found.</p>}
     {feedback && (
-      <>
+      <div className="feedback-box">
         <p><strong>Provider:</strong> {feedback.providerName}</p>
         <p><strong>Rating:</strong> {feedback.rating}</p>
         <p><strong>Comment:</strong> {feedback.comment}</p>
-      </>
+      </div>
     )}
     </>
     )
