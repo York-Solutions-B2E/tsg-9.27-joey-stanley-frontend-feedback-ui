@@ -8,4 +8,5 @@ services:
 
 networks:
   stanjgcnet:
+    external: true
     driver: bridge
