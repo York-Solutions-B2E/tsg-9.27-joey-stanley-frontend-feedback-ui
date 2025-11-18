@@ -5,8 +5,3 @@ services:
       - "5173:80"
     networks:
       - stanjgcnet
-
-networks:
-  stanjgcnet:
-    external: true
-    driver: bridge
